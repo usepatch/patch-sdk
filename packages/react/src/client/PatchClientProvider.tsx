@@ -31,7 +31,7 @@ export function PatchClientProvider({ children, sessionToken }: PatchClientProvi
 export function usePatchContext() {
     const context = useContext(PatchContext);
     if (!context) {
-        throw new Error('usePatchContext must be used within PatchProvider');
+        throw new Error('[PATCH]: Missing <PatchProvider>. Please refer to https://docs.patch.bot/installation');
     }
     return context;
 }

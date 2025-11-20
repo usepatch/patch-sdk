@@ -20,7 +20,7 @@ async function verifyJWT(organizationId: string, token: string): Promise<string>
 
     if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || 'JWT validation failed');
+        throw new Error(errorData.error || '[PATCH]: JWT validation failed');
     }
 
     const data = await response.json();
@@ -93,7 +93,7 @@ export function PatchProvider({ children, authEndpoint = '/api/patch/auth' }: Pa
             .then(async (response) => {
                 if (!response.ok) {
                     const errorData = await response.json();
-                    throw new Error(errorData.error || 'Failed to get JWT');
+                    throw new Error(errorData.error || '[PATCH]: Failed to get JWT');
                 }
                 return response.json();
             })

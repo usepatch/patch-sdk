@@ -6,37 +6,9 @@ interface PatchAuthHandlerOptions {
     organizationId: string;
     email: string;
     name: string;
-    avatar_url: string;
+    avatar_url?: string;
 }
 
-/**
- * Creates a request handler for generating Patch JWTs.
- * 
- * Uses Web API standard (Request/Response) and works with any framework that supports
- * standard Request/Response objects: Next.js, Nuxt, SvelteKit, Remix, Solid-Start,
- * Tanstack Start, Hono, Elysia, etc.
- * 
- * @example Next.js App Router
- * ```tsx
- * // app/api/patch/auth/route.ts
- * import { PatchAuthHandler } from '@patch-sdk/react';
- * import { getAuthenticatedUser, getActiveOrganization } from '@/lib/auth';
- * 
- * export const POST = async (request: Request) => {
- *   const user = await getAuthenticatedUser(request);
- *   const org = await getActiveOrganization(request);
- *   
- *   return PatchAuthHandler(request, {
- *     secretKey: process.env.PATCH_SECRET_KEY,
- *     userId: user.id,
- *     organizationId: org.id,
- *     email: user.email,
- *     name: user.name,
- *     avatar_url: user.avatar,
- *   });
- * };
- * ```
- */
 export async function PatchAuthHandler(
     request: Request,
     options: PatchAuthHandlerOptions
@@ -44,9 +16,39 @@ export async function PatchAuthHandler(
     try {
         const { secretKey, userId, organizationId, email, name, avatar_url } = options;
         
-        if (!userId || !organizationId || !email || !name || !avatar_url) {
+        if (!userId) {
             return new Response(
-                JSON.stringify({ error: 'userId, organizationId, email, name, and avatar_url are required' }),
+                JSON.stringify({ error: '[PATCH]: Missing userId. This can be any unique identifier you use to distinguish users.' }),
+                {
+                    status: 400,
+                    headers: { 'Content-Type': 'application/json' },
+                }
+            );
+        }
+
+        if (!organizationId) {
+            return new Response(
+                JSON.stringify({ error: '[PATCH]: Missing organizationId. Please refer to https://docs.patch.bot/installation' }),
+                {
+                    status: 400,
+                    headers: { 'Content-Type': 'application/json' },
+                }
+            );
+        }
+
+        if (!email) {
+            return new Response(
+                JSON.stringify({ error: '[PATCH]: Missing email. Please refer to https://docs.patch.bot/installation' }),
+                {
+                    status: 400,
+                    headers: { 'Content-Type': 'application/json' },
+                }
+            );
+        }
+
+        if (!name) {
+            return new Response(
+                JSON.stringify({ error: '[PATCH]: Missing name. Please refer to https://docs.patch.bot/installation' }),
                 {
                     status: 400,
                     headers: { 'Content-Type': 'application/json' },
@@ -76,7 +78,7 @@ export async function PatchAuthHandler(
         );
     } catch (error: any) {
         return new Response(
-            JSON.stringify({ error: error.message || 'Failed to generate JWT' }),
+            JSON.stringify({ error: error.message || '[PATCH]: Failed to generate JWT' }),
             {
                 status: 500,
                 headers: { 'Content-Type': 'application/json' },
