@@ -2,6 +2,7 @@ node_modules/
 .git/
 .cursor/
 *.log
+packages/
 tsconfig.json
 bun.lock
 .gitignore

@@ -4,8 +4,13 @@ import { useQuery } from "convex/react"
 import { api } from "../../generated/api";
 import { usePatchContext } from "../PatchClientProvider";
 
-export function useThreads() {
+export function useMessages(threadId: any) {
     const { sessionToken } = usePatchContext();
 
-    return useQuery(api.sdk.useThreads, { sessionToken });
+    return useQuery(
+        api.sdk.useMessages, 
+        threadId ? { sessionToken, threadId } : "skip"
+    );
 }
+
+

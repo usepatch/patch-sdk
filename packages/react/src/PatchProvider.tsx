@@ -38,7 +38,7 @@ async function verifyJWT(organizationId: string, token: string): Promise<string>
  * // app/layout.tsx
  * 'use client';
  * 
- * import { PatchProvider } from 'patch-sdk';
+ * import { PatchProvider } from '@patch-sdk/react';
  * 
  * export default function Layout({ children }) {
  *   return (
@@ -61,7 +61,7 @@ async function verifyJWT(organizationId: string, token: string): Promise<string>
  * 
  * ```tsx
  * // app/api/patch/auth/route.ts
- * import { PatchAuthHandler } from 'patch-sdk';
+ * import { PatchAuthHandler } from '@patch-sdk/react';
  * import { getAuthenticatedUser, getActiveOrganization } from '@/lib/auth';
  * 
  * export const POST = async (request: Request) => {
@@ -125,4 +125,5 @@ export function PatchProvider({ children, authEndpoint = '/api/patch/auth' }: Pa
         </PatchClientProvider>
     );
 }
+
 

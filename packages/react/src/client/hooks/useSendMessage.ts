@@ -4,6 +4,22 @@ import { PatchClient } from "../PatchClient";
 import { api } from "../../generated/api";
 import { usePatchContext } from "../PatchClientProvider";
 
+/**
+ * Hook for sending messages in Patch threads.
+ * 
+ * @returns A function that can be called to send a message
+ * 
+ * @example
+ * ```tsx
+ * const send = useSendMessage();
+ * 
+ * await send({
+ *   threadId: 'thread123',
+ *   content: 'Hello!',
+ *   userType: 'user'
+ * });
+ * ```
+ */
 export function useSendMessage() {
     const { sessionToken } = usePatchContext();
 
@@ -44,3 +60,5 @@ export function useSendMessage() {
         });
     };
 }
+
+

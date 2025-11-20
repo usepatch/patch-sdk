@@ -1,18 +1,14 @@
 # Patch SDK
 
-The real-time customer experience library for React. Patch gives you access to prebuilt components, hooks, and helpers to make community support a breeze.
+Official SDKs for integrating the Patch backend into your application.
 
-## Why Patch SDK?
+## Packages
 
-- **Framework Agnostic** - Works with Next.js, Remix, Vite, and any React setup
-- **Type Safe** - Full TypeScript support with comprehensive type definitions
-- **Real-time** - Built on Convex for instant updates and real-time messaging
-- **Flexible** - Build custom UIs with our hooks and components
-- **Simple** - Minimal setup, maximum flexibility
+- **[@patch-sdk/react](./packages/react)** - The real-time customer experience library for React.
 
-## Getting Started
+## Documentation
 
-For installation instructions and full documentation, visit our [documentation site](http://localhost:4444/installation).
+Visit [docs.patch.bot](https://docs.patch.bot) for full documentation.
 
 ## License
 

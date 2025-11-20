@@ -4,8 +4,8 @@
 // This file exports all Patch SDK functionality.
 // 
 // IMPORT PATTERNS:
-// - Client components: import { PatchProvider, useThreads, ... } from 'patch-sdk'
-// - Server components: import { PatchAuthHandler } from 'patch-sdk'
+// - Client components: import { PatchProvider, useThreads, ... } from '@patch-sdk/react'
+// - Server components: import { PatchAuthHandler } from '@patch-sdk/react'
 // ============================================================================
 
 // ----------------------------------------------------------------------------
@@ -14,17 +14,17 @@
 // These are safe to use in client components (React components that run in the browser)
 
 // Main provider component - automatically fetches JWT and handles authentication
-export { PatchProvider } from "./package/src/PatchProvider";
+export { PatchProvider } from "./src/PatchProvider";
 
 // Client infrastructure
-export * from "./package/src/client/PatchClient"
-export * from "./package/src/client/PatchClientProvider"
+export * from "./src/client/PatchClient"
+export * from "./src/client/PatchClientProvider"
 
 // Hooks
-export * from "./package/src/client/hooks/useThreads"
-export * from "./package/src/client/hooks/useMessages"
-export * from "./package/src/client/hooks/useOrganization"
-export * from "./package/src/client/hooks/useSendMessage"
+export * from "./src/client/hooks/useThreads"
+export * from "./src/client/hooks/useMessages"
+export * from "./src/client/hooks/useOrganization"
+export * from "./src/client/hooks/useSendMessage"
 
 // ----------------------------------------------------------------------------
 // SERVER EXPORTS
@@ -33,4 +33,9 @@ export * from "./package/src/client/hooks/useSendMessage"
 
 // Server-side auth handler - generates JWTs for Patch authentication
 // Use this in your API route: /api/patch/auth
-export { PatchAuthHandler } from "./package/src/server/PatchAuthHandler"
+export { PatchAuthHandler } from "./src/server/PatchAuthHandler"
+
+// Types
+export * from "./src/types"
+
+

@@ -1,36 +1,17 @@
 {
-  "name": "@patch-sdk/react",
+  "name": "patch-sdk",
   "version": "0.0.1",
-  "description": "Patch React Library",
-  "author": "300ft Ventures LLC",
-  "keywords": ["react", "customer-support", "customer-experience", "chat", "real-time", "sdk"],
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": ""
-  },
-  "homepage": "https://docs.patch.bot",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.js"
-    }
-  },
-  "files": ["dist"],
+  "private": true,
+  "description": "Patch SDK monorepo",
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
-    "build": "tsc",
-    "prepublishOnly": "bun run build"
+    "build": "npm run build --workspaces",
+    "build:react": "npm run build --workspace=@patch-sdk/react",
+    "publish:react": "npm publish --workspace=@patch-sdk/react --access public"
   },
-  "peerDependencies": {
-    "typescript": "^5.9.3",
-    "react": "^18.0.0 || ^19.0.0",
-    "react-dom": "^18.0.0 || ^19.0.0"
-  },
-  "dependencies": {
-    "convex": "^1.27.3",
-    "jose": "^6.1.0"
+  "devDependencies": {
+    "typescript": "^5.9.3"
   }
 }

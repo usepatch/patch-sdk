@@ -48,3 +48,5 @@ export type Organization = {
         generateUploadUrl: FunctionReference<"mutation", "public", { sessionToken: string }, string>;
     };
 };
+
+

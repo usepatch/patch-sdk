@@ -19,7 +19,7 @@ interface PatchAuthHandlerOptions {
  * @example Next.js App Router
  * ```tsx
  * // app/api/patch/auth/route.ts
- * import { PatchAuthHandler } from 'patch-sdk/server';
+ * import { PatchAuthHandler } from '@patch-sdk/react';
  * import { getAuthenticatedUser, getActiveOrganization } from '@/lib/auth';
  * 
  * export const POST = async (request: Request) => {
@@ -84,4 +84,5 @@ export async function PatchAuthHandler(
         );
     }
 }
+
 
