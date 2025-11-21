@@ -8,25 +8,6 @@ interface PatchProviderProps {
     authEndpoint?: string; // Optional: defaults to '/api/patch/auth'
 }
 
-/**
- * Verifies JWT and gets sessionToken from Patch.
- */
-async function verifyJWT(organizationId: string, token: string): Promise<string> {
-    const response = await fetch('https://elegant-starling-928.convex.site/verifyjwt', {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ organizationId, token }),
-    });
-
-    if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || '[PATCH]: JWT validation failed');
-    }
-
-    const data = await response.json();
-    return data.sessionToken;
-}
-
 export function PatchProvider({ children, authEndpoint = '/api/patch/auth' }: PatchProviderProps) {
     const [sessionToken, setSessionToken] = useState<string | null>(null);
     const [error, setError] = useState<Error | null>(null);
@@ -49,13 +30,13 @@ export function PatchProvider({ children, authEndpoint = '/api/patch/auth' }: Pa
             .then(async (response) => {
                 if (!response.ok) {
                     const errorData = await response.json();
-                    throw new Error(errorData.error || '[PATCH]: Failed to get JWT');
+                    throw new Error(errorData.error || '[PATCH]: Failed to get session token');
                 }
-                return response.json();
+                const data = await response.json();
+                // PatchAuthHandler returns sessionToken directly
+                return data.sessionToken;
             })
-            .then(async ({ jwt, organizationId }) => {
-                // Verify JWT and get sessionToken
-                const token = await verifyJWT(organizationId, jwt);
+            .then((token) => {
                 setSessionToken(token);
                 setIsLoading(false);
             })

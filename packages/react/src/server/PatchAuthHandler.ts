@@ -9,6 +9,25 @@ interface PatchAuthHandlerOptions {
     avatar_url?: string;
 }
 
+/**
+ * Verifies JWT with Patch's endpoint (server-side only, no CORS issues)
+ */
+async function verifyJWT(organizationId: string, token: string): Promise<string> {
+    const response = await fetch('https://elegant-starling-928.convex.site/verifyjwt', {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ organizationId, token }),
+    });
+
+    if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || '[PATCH]: JWT validation failed');
+    }
+
+    const data = await response.json();
+    return data.sessionToken;
+}
+
 export async function PatchAuthHandler(
     request: Request,
     options: PatchAuthHandlerOptions
@@ -69,8 +88,12 @@ export async function PatchAuthHandler(
             .setExpirationTime('15m')
             .sign(new TextEncoder().encode(secretKey));
         
+        // Verify JWT with Patch's endpoint (server-side, no CORS)
+        const sessionToken = await verifyJWT(organizationId, jwt);
+        
+        // Return sessionToken directly - users don't need to know about JWT/verification
         return new Response(
-            JSON.stringify({ jwt, organizationId }),
+            JSON.stringify({ sessionToken }),
             {
                 status: 200,
                 headers: { 'Content-Type': 'application/json' },
@@ -78,7 +101,7 @@ export async function PatchAuthHandler(
         );
     } catch (error: any) {
         return new Response(
-            JSON.stringify({ error: error.message || '[PATCH]: Failed to generate JWT' }),
+            JSON.stringify({ error: error.message || '[PATCH]: Failed to generate session token' }),
             {
                 status: 500,
                 headers: { 'Content-Type': 'application/json' },
