@@ -7,7 +7,10 @@ import { usePatchContext } from "../PatchClientProvider";
 export function useThreads() {
     const { sessionToken } = usePatchContext();
 
-    return useQuery(api.sdk.useThreads, { sessionToken });
+    return useQuery(
+        api.sdk.useThreads, 
+        sessionToken ? { sessionToken } : "skip"
+    );
 }
 
 

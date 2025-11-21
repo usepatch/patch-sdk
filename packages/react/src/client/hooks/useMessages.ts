@@ -9,7 +9,7 @@ export function useMessages(threadId: any) {
 
     return useQuery(
         api.sdk.useMessages, 
-        threadId ? { sessionToken, threadId } : "skip"
+        (sessionToken && threadId) ? { sessionToken, threadId } : "skip"
     );
 }
 

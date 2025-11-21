@@ -7,11 +7,11 @@ import { createContext, useContext, useMemo } from "react";
 
 interface PatchClientProviderProps {
     children: ReactNode;
-    sessionToken: string;
+    sessionToken: string | null;
 }
 
 interface PatchContextValue {
-    sessionToken: string;
+    sessionToken: string | null;
 }
 
 const PatchContext = createContext<PatchContextValue | null>(null);

@@ -8,7 +8,7 @@ export function useOrganization() {
     const { sessionToken } = usePatchContext();
     return useQuery(
         api.sdk.useOrganization,
-        { sessionToken }
+        sessionToken ? { sessionToken } : "skip"
     );
 }
 

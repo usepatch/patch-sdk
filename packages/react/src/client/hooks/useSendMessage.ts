@@ -29,6 +29,10 @@ export function useSendMessage() {
         file?: File;
         userType?: "user" | "agent";
     }) => {
+        if (!sessionToken) {
+            throw new Error('[PATCH]: Session token not available. Please wait for authentication to complete.');
+        }
+
         let finalContent: string | any;
         let contentType: "text" | "file";
 

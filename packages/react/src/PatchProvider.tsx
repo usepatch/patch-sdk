@@ -51,11 +51,8 @@ export function PatchProvider({ children, authEndpoint = '/api/patch/auth' }: Pa
         throw error;
     }
 
-    if (!isMounted || isLoading || !sessionToken) {
-        // Return null while loading - children can use Suspense for loading states
-        return null;
-    }
-
+    // Always render children immediately - non-Patch components should not be blocked
+    // PatchClientProvider will handle null sessionToken gracefully
     return (
         <PatchClientProvider sessionToken={sessionToken}>
             {children}
