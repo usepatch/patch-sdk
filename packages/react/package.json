@@ -1,6 +1,6 @@
 {
   "name": "@patch-sdk/react",
-  "version": "0.0.2",
+  "version": "0.0.21",
   "description": "Patch React Library",
   "author": "300ft Ventures LLC",
   "keywords": ["react", "customer-support", "customer-experience", "chat", "real-time", "sdk"],
@@ -34,5 +34,3 @@
     "jose": "^6.1.0"
   }
 }
-
-

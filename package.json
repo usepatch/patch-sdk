@@ -8,7 +8,7 @@
   ],
   "scripts": {
     "build": "npm run build --workspaces",
-    "build:react": "npm run build --workspace=@patch-sdk/react",
+    "build:react": "cd packages/react && bun run build",
     "publish:react": "npm publish --workspace=@patch-sdk/react --access public"
   },
   "devDependencies": {

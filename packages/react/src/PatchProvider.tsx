@@ -27,65 +27,21 @@ async function verifyJWT(organizationId: string, token: string): Promise<string>
     return data.sessionToken;
 }
 
-/**
- * Unified PatchProvider that works in both server and client component contexts.
- * 
- * Automatically fetches JWT from your auth endpoint and handles verification.
- * No props needed - just wrap your app!
- * 
- * @example Next.js App Router
- * ```tsx
- * // app/layout.tsx
- * 'use client';
- * 
- * import { PatchProvider } from '@patch-sdk/react';
- * 
- * export default function Layout({ children }) {
- *   return (
- *     <PatchProvider>
- *       {children}
- *     </PatchProvider>
- *   );
- * }
- * ```
- * 
- * @example With custom endpoint
- * ```tsx
- * <PatchProvider authEndpoint="/custom/patch-auth">
- *   {children}
- * </PatchProvider>
- * ```
- * 
- * **Setup required (one-time):**
- * Create an API endpoint using `PatchAuthHandler`:
- * 
- * ```tsx
- * // app/api/patch/auth/route.ts
- * import { PatchAuthHandler } from '@patch-sdk/react';
- * import { getAuthenticatedUser, getActiveOrganization } from '@/lib/auth';
- * 
- * export const POST = async (request: Request) => {
- *   const user = await getAuthenticatedUser(request);
- *   const org = await getActiveOrganization(request);
- *   
- *   return PatchAuthHandler(request, {
- *     secretKey: process.env.PATCH_SECRET_KEY,
- *     userId: user.id,
- *     organizationId: org.id,
- *     email: user.email,
- *     name: user.name,
- *     avatar_url: user.avatar,
- *   });
- * };
- * ```
- */
 export function PatchProvider({ children, authEndpoint = '/api/patch/auth' }: PatchProviderProps) {
     const [sessionToken, setSessionToken] = useState<string | null>(null);
     const [error, setError] = useState<Error | null>(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [isMounted, setIsMounted] = useState(false);
+
+    // Ensure we're on the client before fetching
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
 
     useEffect(() => {
-        // Fetch JWT from customer's auth endpoint
+        // Only fetch when mounted (client-side only)
+        if (!isMounted) return;
+
         fetch(authEndpoint, {
             method: 'POST',
             credentials: 'include', // Include auth cookies
@@ -107,14 +63,14 @@ export function PatchProvider({ children, authEndpoint = '/api/patch/auth' }: Pa
                 setError(err);
                 setIsLoading(false);
             });
-    }, [authEndpoint]);
+    }, [authEndpoint, isMounted]);
 
     if (error) {
         // Throw error to be caught by Error Boundary
         throw error;
     }
 
-    if (isLoading || !sessionToken) {
+    if (!isMounted || isLoading || !sessionToken) {
         // Return null while loading - children can use Suspense for loading states
         return null;
     }
@@ -125,5 +81,3 @@ export function PatchProvider({ children, authEndpoint = '/api/patch/auth' }: Pa
         </PatchClientProvider>
     );
 }
-
-
