@@ -44,7 +44,7 @@ export type Organization = {
         useThreads: FunctionReference<"query", "public", { sessionToken: string }, Thread[] | null>;
         useMessages: FunctionReference<"query", "public", { sessionToken: string; threadId: string }, Message[] | null>;
         useOrganization: FunctionReference<"query", "public", { sessionToken: string }, Organization | null>;
-        sendMessage: FunctionReference<"mutation", "public", { sessionToken: string; threadId?: string; content: string; contentType: "text" | "file"; userType: "user" | "agent" }, string>;
+        sendMessage: FunctionReference<"action", "public", { sessionToken: string; threadId?: string; content: string; contentType: "text" | "file"; userType: "user" | "agent" }, string>;
         generateUploadUrl: FunctionReference<"mutation", "public", { sessionToken: string }, string>;
     };
 };

@@ -55,7 +55,7 @@ export function useSendMessage() {
             contentType = "text"
         }
 
-        return await PatchClient.mutation(api.sdk.sendMessage, {
+        return await PatchClient.action(api.sdk.sendMessage, {
             sessionToken,
             threadId: params.threadId,
             content: finalContent,
